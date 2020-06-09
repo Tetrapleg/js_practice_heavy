@@ -1,29 +1,22 @@
 'use strict';
 
-let number = 266219;
+let enterInfo = '         66666666666 jjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjjj       ';
 
-number = String(number); //Преобразуем наше число в массив
+const recenseText = function(text){
+  if (typeof(text) === 'string'){
+    text = text.trim();
+    if (text.length > 30){
+      text = text.substring(0, 30) + '...';
+    }
+  } else {
+    text = 'Введённые данные не явлыяются строкой';
+  }
+  // console.log(text);
+  return text;
+  
+};
 
-let x = 1; //Переменная для первого умножения
+let res = recenseText(enterInfo);
+console.log(res);
 
-for (let i = 0; i < number.length; i++) {
-  x *= number[i];
-} //Перемножаем цифры полученного массива
-
-console.log(x);
-
-x **= 3; //Возводим в степень
-
-x = String(x); //Преобразуем полученное число в строку
-
-console.log(x.substring(0, 2)); //Выводим первые две цифры полученного числа
-
-//2 способ
-number = 20076;
-let str = number + '';
-let arr = str.split('');
-let sum = arr.reduce(function(acc, item) {
-  return +item ? acc * item : acc;
-}, 1);
-console.log(sum);
 
