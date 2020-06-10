@@ -1,29 +1,38 @@
 'use strict';
 
-let number = 266219;
+let arr = [];
 
-number = String(number); //Преобразуем наше число в массив
+arr[0] = '245';
+arr[1] = '345';
+arr[2] = '445';
+arr[3] = '245';
+arr[4] = '345';
+arr[5] = '445';
+arr[6] = '345';
 
-let x = 1; //Переменная для первого умножения
+for (let i = 0; i < arr.length; i++) {
+  let x = arr[i].charAt(0);
 
-for (let i = 0; i < number.length; i++) {
-  x *= number[i];
-} //Перемножаем цифры полученного массива
+  if (x === '2' || x === '4') {
+    console.log(arr[i]);
+  }
+}
 
-console.log(x);
+console.log(arr);
 
-x **= 3; //Возводим в степень
 
-x = String(x); //Преобразуем полученное число в строку
+let i,
+    y;
 
-console.log(x.substring(0, 2)); //Выводим первые две цифры полученного числа
+for (i = 2; i <= 100; i++) {
+  for(y = 2; y <= i; y++) {
+    if (i % y === 0) {
+      break;
+    }
+  }
+  if (i === y) {
+    console.log(i + ' Делители этого числа: 1 и ' + i);
+  }
+}
 
-//2 способ
-number = 20076;
-let str = number + '';
-let arr = str.split('');
-let sum = arr.reduce(function(acc, item) {
-  return +item ? acc * item : acc;
-}, 1);
-console.log(sum);
 
