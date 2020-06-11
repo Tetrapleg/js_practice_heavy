@@ -1,14 +1,6 @@
 'use strict';
 
-let arr = [];
-
-arr[0] = '245';
-arr[1] = '345';
-arr[2] = '445';
-arr[3] = '245';
-arr[4] = '345';
-arr[5] = '445';
-arr[6] = '345';
+let arr = ['245', '345','445','245','345','445', '345'];
 
 for (let i = 0; i < arr.length; i++) {
   let x = arr[i].charAt(0);
