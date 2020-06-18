@@ -25,40 +25,6 @@ document.write('</br>');
 document.write('</br>');
 
 
-if (new Date().getDate() >= 10 || new Date().getDate() == 0) {
-  document.write(new Date().getDate() + '.');
-} else {
-  document.write(('0') + new Date().getDate() + '.');
-}
-if (new Date().getMonth() >= 10 || new Date().getMonth() == 0) {
-  document.write(new Date().getMonth() + '.');
-} else {
-  document.write(('0') + new Date().getMonth() + '.')
-}
-document.write(new Date().getFullYear() + (' - '));
-if (new Date().getHours() >= 10 || new Date().getHours() !== 0) {
-  document.write(new Date().getHours() + (':'));
-} else {
-  document.write(('0') + new Date().getHours() + (':')); 
-}
-
-if (new Date().getMinutes() >= 10 || new Date().getMinutes() == 0) {
-  document.write(new Date().getMinutes() + (':'));
-} else {
-  document.write(('0') + new Date().getMinutes() + (':')); 
-}
-
-if (new Date().getSeconds() >= 10 || new Date().getSeconds() == 0) {
-  document.write(new Date().getSeconds());
-} else {
-  document.write(('0') + new Date().getSeconds());
-}
-
-
-document.write('</br>');
-document.write('</br>');
-
-
 setInterval("calcDate()",1000);
 
 function calcDate() {
