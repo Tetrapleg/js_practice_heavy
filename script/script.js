@@ -1,29 +1,27 @@
 'use strict';
 
-let number = 266219;
+const wrapper = document.querySelector('.wrapper'),
+      color = document.getElementById('color'),
+      change = document.getElementById('change'),
+      symbArr = ['a', 'b', 'c', 'd', 'f'];
 
-number = String(number); //Преобразуем наше число в массив
+change.addEventListener('click', () => {
 
-let x = 1; //Переменная для первого умножения
+  const numSymbArr = [];
+  for (let i = 0; i < 6; i++) {
+    let numSymb = Math.floor(Math.random() * 2);
+    if (numSymb === 0) {
+      numSymb = Math.floor(Math.random() * 10);
+      numSymbArr.push(numSymb);
+    } else {
+      numSymb = symbArr[Math.floor(Math.random() * 5)];
+      numSymbArr.push(numSymb);
+    }
+  }
+  wrapper.style.backgroundColor = `#${numSymbArr[0]}${numSymbArr[1]}${numSymbArr[2]}${numSymbArr[3]}${numSymbArr[4]}${numSymbArr[5]}`;
+  
+  color.innerHTML = `#${numSymbArr[0]}${numSymbArr[1]}${numSymbArr[2]}${numSymbArr[3]}${numSymbArr[4]}${numSymbArr[5]}`;
+});
 
-for (let i = 0; i < number.length; i++) {
-  x *= number[i];
-} //Перемножаем цифры полученного массива
 
-console.log(x);
-
-x **= 3; //Возводим в степень
-
-x = String(x); //Преобразуем полученное число в строку
-
-console.log(x.substring(0, 2)); //Выводим первые две цифры полученного числа
-
-//2 способ
-number = 20076;
-let str = number + '';
-let arr = str.split('');
-let sum = arr.reduce(function(acc, item) {
-  return +item ? acc * item : acc;
-}, 1);
-console.log(sum);
 
