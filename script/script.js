@@ -1,29 +1,46 @@
 'use strict';
 
-let number = 266219;
+const reset = document.getElementById('reset'),
+    start = document.getElementById('start'),
+    red = document.querySelector('.red'),
+    green = document.querySelector('.green'),
+    blue = document.querySelector('.blue');
+    
 
-number = String(number); //Преобразуем наше число в массив
+let ballInterval,
+    count = 0;
+let ballAnimate = function(){
 
-let x = 1; //Переменная для первого умножения
+  ballInterval = requestAnimationFrame(ballAnimate);
+  count++;
+  if(count < 700){
+    red.style.top = count + 'px';
+    green.style.top = count + 'px';
+    green.style.left = count * 2 + 'px';
+    blue.style.left = count * 2 + 'px';
+  } else {
+    cancelAnimationFrame(ballInterval);
+  }
+};
 
-for (let i = 0; i < number.length; i++) {
-  x *= number[i];
-} //Перемножаем цифры полученного массива
+let animate = true;
 
-console.log(x);
+start.addEventListener('click', () => {
+  if(animate){
+    ballInterval = requestAnimationFrame(ballAnimate);
+    animate = false;
+  } else {
+    animate = true;
+    cancelAnimationFrame(ballInterval);
+  }
+});
 
-x **= 3; //Возводим в степень
-
-x = String(x); //Преобразуем полученное число в строку
-
-console.log(x.substring(0, 2)); //Выводим первые две цифры полученного числа
-
-//2 способ
-number = 20076;
-let str = number + '';
-let arr = str.split('');
-let sum = arr.reduce(function(acc, item) {
-  return +item ? acc * item : acc;
-}, 1);
-console.log(sum);
-
+reset.addEventListener('click', () => {
+  cancelAnimationFrame(ballInterval);
+  animate = true;
+  count = 0;
+  red.style.top = 0 + 'px';
+  green.style.top = 0 + 'px';
+  green.style.left = 0 + 'px';
+  blue.style.left = 0 + 'px';
+});
