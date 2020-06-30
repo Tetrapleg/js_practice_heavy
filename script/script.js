@@ -1,29 +1,180 @@
-'use strict';
+window.addEventListener('DOMContentLoaded', function(){
+  'use strict';
 
-let number = 266219;
+ //Timer
+ function countTimer(deadline){
+    let timeHours = document.getElementById('timer-hours'),
+        timeMinutes = document.getElementById('timer-minutes'),
+        timeSeconds = document.getElementById('timer-seconds');
 
-number = String(number); //Преобразуем наше число в массив
+  function getTimeRemining(){
+    let dateStop = new Date(deadline).getTime(),
+        dateNow = new Date().getTime(),
+        timeRemaining = (dateStop - dateNow) / 1000,
+        seconds = Math.floor(timeRemaining % 60),
+        minutes = Math.floor((timeRemaining / 60) % 60),
+        hours = Math.floor((timeRemaining / 60) / 60);
+        return {timeRemaining, hours, minutes, seconds};
+  }
 
-let x = 1; //Переменная для первого умножения
+  let idInterval;
 
-for (let i = 0; i < number.length; i++) {
-  x *= number[i];
-} //Перемножаем цифры полученного массива
+  function updateClock(){
+    let timer = getTimeRemining();
 
-console.log(x);
+    function setNull(data){
+      if (data < 10) {
+        return `0${data}`;
+      } else {
+        return data;
+      }
+    }
 
-x **= 3; //Возводим в степень
+    timeHours.textContent = setNull(timer.hours);
+    timeMinutes.textContent = setNull(timer.minutes);
+    timeSeconds.textContent = setNull(timer.seconds);
 
-x = String(x); //Преобразуем полученное число в строку
+    if(timer.timeRemaining > 0){
+    return;
+    } else {
+      clearInterval(idInterval);
+      timeHours.textContent = timeMinutes.textContent = timeSeconds.textContent = '00';
+    }
+  }
 
-console.log(x.substring(0, 2)); //Выводим первые две цифры полученного числа
+   idInterval = setInterval(updateClock, 1000);
 
-//2 способ
-number = 20076;
-let str = number + '';
-let arr = str.split('');
-let sum = arr.reduce(function(acc, item) {
-  return +item ? acc * item : acc;
-}, 1);
-console.log(sum);
+ } 
 
+ countTimer('21 july 2020');
+
+ //Menu
+const toggleMenu = () =>{
+
+  const btnMenu = document.querySelector('.menu'),
+        menu = document.querySelector('menu'),
+        closeBtn = document.querySelector('.close-btn'),
+        menuItems = menu.querySelectorAll('ul>li');
+
+  const handlerMenu = () => {
+    menu.classList.toggle('active-menu');
+  };
+  btnMenu.addEventListener('click', handlerMenu);
+  closeBtn.addEventListener('click', handlerMenu);
+
+  menuItems.forEach((elem) => elem.addEventListener('click', handlerMenu));
+
+};
+
+toggleMenu();
+
+//Popup
+const togglePopup = () => {
+  const popup = document.querySelector('.popup'),
+        popupBtn = document.querySelectorAll('.popup-btn'),
+        popupClose = document.querySelector('.popup-close'),
+        popupContent = document.querySelector('.popup-content');
+    
+  let requesInterval,
+      count = 280;
+          
+  popupContent.style.transform = `translateX(-280%)`;
+  
+  const popupOnAnimate = () => {
+
+    count -= 10;
+    if(count >= 0 ){
+    requesInterval = requestAnimationFrame(popupOnAnimate);
+    popupContent.style.transform = `translateX(-${count}%)`;
+    }else{
+      cancelAnimationFrame(requesInterval);
+    }
+  };
+
+  const popupOffAnimate = () => {
+
+    count += 10;
+    if(count <= 280){
+      requesInterval = requestAnimationFrame(popupOffAnimate);
+      popupContent.style.transform = `translateX(-${count}%)`;
+    }else{
+      cancelAnimationFrame(requesInterval);
+      popup.style.display = 'none';
+    }
+  };
+    
+  popupBtn.forEach((elem) => {
+    elem.addEventListener('click', () => {
+      if(document.documentElement.scrollWidth > 768){
+        popup.style.display = 'block';
+        requestAnimationFrame(popupOnAnimate);
+      }else{
+        popupContent.style.transform = `translateX(0)`;
+        popup.style.display = 'block';
+      }
+    });
+  });
+
+  popupClose.addEventListener('click', () => {
+    if(document.documentElement.scrollWidth > 768){
+      requestAnimationFrame(popupOffAnimate);
+    }else{
+      popup.style.display = 'none';
+    }
+  });
+};
+
+togglePopup();
+
+//slowScroll
+const slowScroll = () => {
+
+  const menu = document.querySelector('menu'),
+        menuItems = menu.querySelectorAll('ul>li'),
+        serviceBlockBtn = document.querySelectorAll('main>a');
+
+  let requestInterval,
+      y,
+      count = 0;
+
+  const scrollToId = () => {
+    
+    count = document.documentElement.scrollTop;
+    requestInterval = requestAnimationFrame(scrollToId);
+    
+    if(y > count + 30){
+      count += 30;
+      document.documentElement.scrollTop = count;
+    } else if(y < count - 30){
+      count -= 30;
+      document.documentElement.scrollTop = count;
+    } else {
+      cancelAnimationFrame(requestInterval);
+    }
+    
+  };
+
+  menuItems.forEach((elem) => elem.addEventListener('click', function(event){
+
+    event.preventDefault();
+
+    const idToScroll = document.getElementById(`${((event.target.href).split('#')[1])}`);
+    y = Math.ceil((idToScroll.getBoundingClientRect()).y) + document.documentElement.scrollTop;
+
+    requestAnimationFrame(scrollToId);
+  }));
+
+  serviceBlockBtn[0].addEventListener('click', function(event){
+
+    event.preventDefault();
+
+    y = Math.ceil((document.getElementById('service-block').getBoundingClientRect()).y);
+    y += document.documentElement.scrollTop;
+
+    requestAnimationFrame(scrollToId);
+  });
+};
+
+slowScroll();
+
+});
