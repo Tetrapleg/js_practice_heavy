@@ -19,9 +19,7 @@ let start = document.getElementById('start'),
       incomeItems = document.querySelectorAll('.income-items'),
       depositBank = document.querySelector('.deposit-bank'),
       depositPercent = document.querySelector('.deposit-percent'),
-      depositAmount = document.querySelector('.deposit-amount'),
-      inputPlaceName = document.querySelectorAll('input[placeholder="Наименование"]'),
-      inputPlaceSumm = document.querySelectorAll('input[placeholder="Сумма"]');
+      depositAmount = document.querySelector('.deposit-amount');
 
 //Right aside
 let resultTotal = document.querySelectorAll('.result-total'),
@@ -32,6 +30,9 @@ let resultTotal = document.querySelectorAll('.result-total'),
       additionalExpensesValue = resultTotal[4],
       incomePeriodValue = resultTotal[5],
       targetMonthValue = resultTotal[6];
+
+const regexStr = /[А-Яа-я .,]/,
+      regexNum = /[0-9]/;
 
 //Code
 
@@ -101,8 +102,8 @@ class AppData {
     });
   }
 
-  addExpIncBlock() {
-    const startStr = this.className.split(' ')[1].split('_')[0];
+  addExpIncBlock() {    
+    const startStr = event.target.className.split(' ')[1].split('_')[0];
     let incExpItems = document.querySelectorAll(`.${startStr}-items`);
     const btnExpIncPplus = document.querySelector(`.${startStr}_add`);
     const cloneExpIncomeItem = incExpItems[0].cloneNode(true);
@@ -110,14 +111,11 @@ class AppData {
     incExpItems[0].parentNode.insertBefore(cloneExpIncomeItem, btnExpIncPplus);
     incExpItems = document.querySelectorAll(`.${startStr}-items`);
 
-    inputPlaceName = document.querySelectorAll('input[placeholder="Наименование"]');
-    inputPlaceSumm = document.querySelectorAll('input[placeholder="Сумма"]');
-
     if (incExpItems.length === 3){
       btnExpIncPplus.style.display = 'none';
     }
-    
-    appData.validSymbolListener();
+
+    this.validSymbolListener();
   }
 
   getExpInc(){
@@ -291,8 +289,6 @@ class AppData {
   }
 
   funcValid(event) {
-    const regexStr = /[А-Яа-я .,]/,
-          regexNum = /[0-9]/;
 
     if(event.target.placeholder === 'Наименование'){
       
@@ -325,6 +321,10 @@ class AppData {
   }
 
   validSymbolListener() {
+
+    let inputPlaceName = document.querySelectorAll('input[placeholder="Наименование"]'),
+        inputPlaceSumm = document.querySelectorAll('input[placeholder="Сумма"]');
+
     const count = item => {
       item.removeEventListener('input', this.funcValid);
       item.addEventListener('input', this.funcValid);
@@ -336,8 +336,12 @@ class AppData {
 
   eventListener() {
     start.addEventListener('click', this.start.bind(this));
-    btnIncomePlus.addEventListener('click', this.addExpIncBlock);
-    btnExpensesPlus.addEventListener('click', this.addExpIncBlock);
+    btnIncomePlus.addEventListener('click', () => {
+      this.addExpIncBlock();
+    });
+    btnExpensesPlus.addEventListener('click', () => {
+      this.addExpIncBlock();
+    });
     btnCancel.addEventListener('click', this.reset.bind(this));
     salaryAmount.addEventListener('keyup', this.check);
     
@@ -349,6 +353,8 @@ class AppData {
 
     this.validSymbolListener();
   }
+
+
 
 }
 
