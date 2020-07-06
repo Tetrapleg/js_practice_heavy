@@ -256,6 +256,7 @@ class AppData {
     depositAmount.style.display = 'none';
     depositPercent.style.display = 'none';
     this.addToStorage();
+    this.resetCookie();
   }
 
   changePersent() {
@@ -363,6 +364,19 @@ class AppData {
     this.setCookieAndLocalStorage('isLoad', true, year, month, day);
   }
 
+  resetCookie() {
+    const year = 2010,
+    month = 10,
+    day = 18;
+
+    let value = 0;
+
+    for(let i = 0; i < resultTotal.length; i++){
+      this.setCookieAndLocalStorage(i, value, year, month, day)
+    }
+    this.setCookieAndLocalStorage('isLoad', true, year, month, day);
+  }
+
   setCookieAndLocalStorage(key, value, year, month, day, path, domain, secure) {
     let cookieStr = encodeURI(key) + '=' + encodeURI(value);
     if (year) {
@@ -380,6 +394,12 @@ class AppData {
   insertCookie() {
     this.localStorageData = [JSON.parse(localStorage.getItem('personalCalculator'))];
     const docCookie = decodeURI(document.cookie).split('; ');
+
+    if(this.localStorageData[0] === null || docCookie === ['']){
+      this.reset();
+    }
+    
+    
     if(this.localStorageData[0].length + 1 === docCookie.length) {
 
       let cookieArr = [];
@@ -399,7 +419,9 @@ class AppData {
       } else {
         this.reset();
       }
-    }    
+    } else {
+      return this.reset();
+    } 
   }
 
   eventListener() {
