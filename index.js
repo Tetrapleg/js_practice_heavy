@@ -372,7 +372,7 @@ class AppData {
     let value = 0;
 
     for(let i = 0; i < resultTotal.length; i++){
-      this.setCookieAndLocalStorage(i, value, year, month, day)
+      this.setCookieAndLocalStorage(i, value, year, month, day);
     }
     this.setCookieAndLocalStorage('isLoad', true, year, month, day);
   }
@@ -405,7 +405,7 @@ class AppData {
       let cookieArr = [];
       for(let i = 0; i < this.localStorageData[0].length; i++){
         docCookie.forEach((item) => {
-          item = item.split('=')
+          item = item.split('=');
           if(item[0] == i){
             cookieArr.push(item[1]);
           }
@@ -416,6 +416,15 @@ class AppData {
         for(let i = 0; i < this.localStorageData[0].length; i++) {
           resultTotal[i].value = this.localStorageData[0][i];
         }
+
+        const allInput = document.querySelectorAll('.data input[type = text]');
+        allInput.forEach((item) => {
+          item.setAttribute('disabled', 'true');
+        });
+        btnExpensesPlus.setAttribute('disabled', 'true');
+        btnIncomePlus.setAttribute('disabled', 'true');
+        start.style.display = 'none';
+        btnCancel.style.display = 'block';
       } else {
         this.reset();
       }
